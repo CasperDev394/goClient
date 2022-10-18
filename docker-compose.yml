@@ -30,5 +30,22 @@ services:
       - ENV=dev
     volumes:
       - ./bot:/go/src/app
-    # have to use $$ (double-dollar) so docker doesn't try to substitute a variable
+    depends_on:
+      - reverse-proxy
     command: reflex -r "\.go$$" -s -- sh -c "go run ./"
+  bot-client:
+    build: 
+      context: ./bot-client
+    image: bot-client
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bot-client.rule=Host(`localhost`) && PathPrefix(`/account`)"
+    volumes:
+      - ./bot-client:/app
+      - /app/node_modules
+    depends_on:
+      - reverse-proxy
