@@ -1,29 +1,34 @@
 <script>
 import { defineComponent, onMounted, ref } from 'vue';
+import getPing from './components/getPing.vue'
 
 export default defineComponent({
   name: 'App',
-  setup() {
-    onMounted(async () => {
-        const response = await fetch('/bot/ping', {
-          method: 'GET',
-        });
-
-        const body = await response.json();
-
-        ping.value = body
-      })
-
-      return {
-        ping
-      }
+  components:{
+    getPing
   }
+  //setup() {
+  //  onMounted(async () => {
+  //      const response = await fetch('/bot/ping', {
+  //        method: 'GET',
+  //      });
+
+  //      const body = await response.json();
+
+  //      ping.value = body
+  //    })
+
+  //    return {
+  //      ping
+  //    }
+  //}
 })
 </script>
 
 <template>
-    <h1>App Work!</h1>
-    <h3 v-if="ping">This is Ping {{ ping }}</h3>
+  <div class="root">
+    <get-ping></get-ping>
+  </div>
 </template>
 
 <style scoped>
